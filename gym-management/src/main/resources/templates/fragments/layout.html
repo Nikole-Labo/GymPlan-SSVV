@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${title} + ' | Gym Management'">Gym Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <style>
+        body { background-color: #f4f6f9; }
+        .navbar-brand { font-weight: 700; }
+        .card { border: none; box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075); }
+        .table th { white-space: nowrap; }
+        .badge-active { background-color: #198754; }
+        .badge-expired { background-color: #6c757d; }
+    </style>
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <i class="bi bi-heart-pulse me-1"></i> Gym Management
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMain">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/gyms}">Gyms</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/customers}">Customers</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/abonaments}">Subscriptions</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/purchase-subscription}">Purchase</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/reports/gym-performance}">Report</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div th:fragment="alerts">
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+
+<script th:fragment="scripts" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

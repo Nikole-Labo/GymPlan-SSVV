@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 p-md-5 text-center">
+                <h1 class="display-6 mb-3">Gym Subscription Management</h1>
+                <p class="lead text-muted mb-4">
+                    Manage gyms, customers, and subscriptions. Purchase memberships with business validations
+                    and generate monthly gym performance reports.
+                </p>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <a th:href="@{/gyms}" class="btn btn-outline-primary w-100 py-3">
+                            <i class="bi bi-building d-block fs-3 mb-1"></i> Gyms
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a th:href="@{/customers}" class="btn btn-outline-primary w-100 py-3">
+                            <i class="bi bi-people d-block fs-3 mb-1"></i> Customers
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a th:href="@{/abonaments}" class="btn btn-outline-primary w-100 py-3">
+                            <i class="bi bi-card-checklist d-block fs-3 mb-1"></i> Subscriptions
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a th:href="@{/purchase-subscription}" class="btn btn-primary w-100 py-3">
+                            <i class="bi bi-cart-plus d-block fs-3 mb-1"></i> Purchase Subscription
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a th:href="@{/reports/gym-performance}" class="btn btn-success w-100 py-3">
+                            <i class="bi bi-bar-chart d-block fs-3 mb-1"></i> Gym Performance Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

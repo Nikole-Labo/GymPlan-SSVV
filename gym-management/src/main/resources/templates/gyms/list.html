@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Gyms')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Gyms</h1>
+        <a th:href="@{/gyms/new}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Gym</a>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Capacity</th>
+                    <th>Manager</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="gym : ${gyms}">
+                    <td th:text="${gym.id}"></td>
+                    <td th:text="${gym.name}"></td>
+                    <td th:text="${gym.address}"></td>
+                    <td th:text="${gym.capacity}"></td>
+                    <td th:text="${gym.managerName}"></td>
+                    <td class="text-end text-nowrap">
+                        <a th:href="@{/gyms/{id}/edit(id=${gym.id})}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form th:action="@{/gyms/{id}/delete(id=${gym.id})}" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete this gym?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(gyms)}">
+                    <td colspan="6" class="text-center text-muted py-4">No gyms yet.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

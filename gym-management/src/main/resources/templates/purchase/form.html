@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Purchase Subscription')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card p-4">
+                <h1 class="h4 mb-2">Purchase Subscription</h1>
+                <p class="text-muted small mb-4">
+                    Links <strong>Customer</strong>, <strong>Gym</strong>, and creates a new <strong>Abonament</strong>.
+                    Validates: no duplicate active subscription at the same gym; gym capacity not exceeded.
+                </p>
+                <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+                <form th:action="@{/purchase-subscription}" th:object="${form}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label" for="customerId">Customer</label>
+                        <select id="customerId" class="form-select" th:field="*{customerId}">
+                            <option value="">-- Select customer --</option>
+                            <option th:each="c : ${customers}" th:value="${c.id}"
+                                    th:text="${c.fullName + ' (' + c.email + ')'}"></option>
+                        </select>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="gymId">Gym</label>
+                        <select id="gymId" class="form-select" th:field="*{gymId}">
+                            <option value="">-- Select gym --</option>
+                            <option th:each="g : ${gyms}" th:value="${g.id}"
+                                    th:text="${g.name + ' (capacity: ' + g.capacity + ')'}"></option>
+                        </select>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('gymId')}" th:errors="*{gymId}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="type">Subscription Plan</label>
+                        <select id="type" class="form-select" th:field="*{type}">
+                            <option th:each="t : ${subscriptionTypes}" th:value="${t.name}"
+                                    th:text="${t.label + ' — ' + t.defaultPrice + ' RON'}"></option>
+                        </select>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-cart-check"></i> Purchase Subscription
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

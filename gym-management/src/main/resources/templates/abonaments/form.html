@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${formTitle})}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card p-4">
+                <h1 class="h4 mb-4" th:text="${formTitle}">Subscription Form</h1>
+                <p class="text-muted small">For purchases with validations, use the
+                    <a th:href="@{/purchase-subscription}">Purchase Subscription</a> page.</p>
+                <form th:action="${abonament.id} != null ? @{/abonaments/{id}(id=${abonament.id})} : @{/abonaments}"
+                      th:object="${abonament}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label" for="customerId">Customer</label>
+                        <select id="customerId" class="form-select" th:field="*{customer.id}" required>
+                            <option value="">-- Select customer --</option>
+                            <option th:each="c : ${customers}" th:value="${c.id}"
+                                    th:text="${c.fullName + ' (' + c.email + ')'}"></option>
+                        </select>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('customer.id')}" th:errors="*{customer.id}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="gymId">Gym</label>
+                        <select id="gymId" class="form-select" th:field="*{gym.id}" required>
+                            <option value="">-- Select gym --</option>
+                            <option th:each="g : ${gyms}" th:value="${g.id}" th:text="${g.name}"></option>
+                        </select>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('gym.id')}" th:errors="*{gym.id}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="type">Plan Type</label>
+                        <select id="type" class="form-select" th:field="*{type}">
+                            <option th:each="t : ${subscriptionTypes}" th:value="${t.name}"
+                                    th:text="${t.label + ' — ' + t.defaultPrice + ' RON'}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Price (RON)</label>
+                        <input id="price" type="number" step="0.01" min="0.01" class="form-control" th:field="*{price}"/>
+                        <div class="text-danger small" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="purchaseDate">Purchase Date</label>
+                            <input id="purchaseDate" type="date" class="form-control" th:field="*{purchaseDate}"/>
+                            <div class="text-danger small" th:if="${#fields.hasErrors('purchaseDate')}" th:errors="*{purchaseDate}"></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="expirationDate">Expiration Date</label>
+                            <input id="expirationDate" type="date" class="form-control" th:field="*{expirationDate}"/>
+                            <div class="text-danger small" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a th:href="@{/abonaments}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Subscriptions')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div class="container">
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Subscriptions (Abonaments)</h1>
+        <div>
+            <a th:href="@{/purchase-subscription}" class="btn btn-success me-1">
+                <i class="bi bi-cart-plus"></i> Purchase
+            </a>
+            <a th:href="@{/abonaments/new}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Gym</th>
+                    <th>Plan</th>
+                    <th>Price</th>
+                    <th>Purchase</th>
+                    <th>Expires</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${abonaments}">
+                    <td th:text="${a.id}"></td>
+                    <td th:text="${a.customer.fullName}"></td>
+                    <td th:text="${a.gym.name}"></td>
+                    <td th:text="${a.type.label}"></td>
+                    <td th:text="${#numbers.formatDecimal(a.price, 1, 2)} + ' RON'"></td>
+                    <td th:text="${#temporals.format(a.purchaseDate, 'dd MMM yyyy')}"></td>
+                    <td th:text="${#temporals.format(a.expirationDate, 'dd MMM yyyy')}"></td>
+                    <td>
+                        <span th:if="${a.active}" class="badge badge-active">Active</span>
+                        <span th:unless="${a.active}" class="badge badge-expired">Expired</span>
+                    </td>
+                    <td class="text-end text-nowrap">
+                        <a th:href="@{/abonaments/{id}/edit(id=${a.id})}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form th:action="@{/abonaments/{id}/delete(id=${a.id})}" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete this subscription?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(abonaments)}">
+                    <td colspan="9" class="text-center text-muted py-4">No subscriptions yet.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
