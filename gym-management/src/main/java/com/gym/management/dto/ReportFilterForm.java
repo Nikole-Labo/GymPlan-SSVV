@@ -1,13 +1,16 @@
 package com.gym.management.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class ReportFilterForm {
 
     @NotNull(message = "Please select a gym")
     private Long gymId;
 
-    @NotNull(message = "Please select a month")
+    @NotBlank(message = "Please select a month")
+    @Pattern(regexp = "\\d{4}-\\d{2}", message = "Please enter a valid month")
     private String yearMonth;
 
     public Long getGymId() {

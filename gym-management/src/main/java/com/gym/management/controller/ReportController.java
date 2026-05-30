@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.DateTimeException;
 import java.time.YearMonth;
 
 @Controller
@@ -44,7 +45,13 @@ public class ReportController {
             return "reports/gym-performance";
         }
 
-        YearMonth yearMonth = YearMonth.parse(filter.getYearMonth());
+        YearMonth yearMonth;
+        try {
+            yearMonth = YearMonth.parse(filter.getYearMonth());
+        } catch (DateTimeException ex) {
+            result.rejectValue("yearMonth", "month.invalid", "Please enter a valid month");
+            return "reports/gym-performance";
+        }
         GymPerformanceReport report =
                 gymReportService.generatePerformanceReport(filter.getGymId(), yearMonth);
         model.addAttribute("report", report);
